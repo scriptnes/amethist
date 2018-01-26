@@ -10,6 +10,7 @@
     <title>Amethist Menu Demo</title>
     <script src="https://unpkg.com/vue"></script>
     <script src="https://unpkg.com/vue-material@beta"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
@@ -19,14 +20,14 @@
 
             <div class="bar">
                 <!-- Create a binding between the searchString model and the text field -->
-                <input type="text" v-model="searchString" placeholder="Въведете критерии за търсене" />
+                <input type="text" v-model="searchString" placeholder="Търсете в артикулите" />
             </div>
 
             <ul>
                 <!-- Render a li element for every entry in the computed filteredArticles array. -->
                 <li v-for="article in filteredArticles">
-                    <img v-bind:src="article.image" />
-                    <p>{{article.title}}</p>
+                    <img v-bind:src="article.gsx$image.$t" />
+                    <p>{{article.gsx$title.$t}}</p>
                 </li>
             </ul>
 
@@ -80,242 +81,7 @@
                 ],
 
                 searchString: "",
-
-                // The data model. These items would normally be requested via AJAX,
-                // but are hardcoded here for simplicity.
-
-                articles: [
-                    {
-                        "id": 1,
-                        "title": "лимец с авокадо",
-                        "description": "рукола, авокадо, белени домати, балсамов дресинг",
-                        "weigth": "0.300",
-                        "image": "Image1",
-                        "price": 2.9,
-                        "currency": "лв.",
-                        "active": true
-                    },
-                    {
-                        "id": 2,
-                        "title": "салата енерджи",
-                        "description": "лимец, черен ориз, киноа, спанак, домати, магданоз, зеленчуков дресинг",
-                        "weigth": "0.300",
-                        "image": "Image2",
-                        "price": 2.9,
-                        "currency": "лв.",
-                        "active": true
-                    },
-                    {
-                        "id": 3,
-                        "title": "средиземноморска",
-                        "description": "белени домати, краставици, сирене, печен пипер, червен лук, магданоз, маслини, крутони, зехтинов дресинг, риган",
-                        "weigth": "0.300",
-                        "image": "Image3",
-                        "price": 2.9,
-                        "currency": "лв.",
-                        "active": true
-                    },
-                    {
-                        "id": 4,
-                        "title": "миконос",
-                        "weigth": "0.300",
-                        "image": "Image4",
-                        "price": 2.9,
-                        "currency": "лв.",
-                        "active": true
-                    },
-                    {
-                        "id": 5,
-                        "title": "разкош",
-                        "weigth": "0.300",
-                        "image": "Image5",
-                        "price": 2.9,
-                        "currency": "лв.",
-                        "active": true
-                    },
-                    {
-                        "id": 6,
-                        "title": "цезар с хрупкаво пиле",
-                        "weigth": "0.300",
-                        "image": "Image6",
-                        "price": 2.9,
-                        "currency": "лв.",
-                        "active": true
-                    },
-                    {
-                        "id": 7,
-                        "title": "шопска",
-                        "weigth": "0.300",
-                        "image": "Image7",
-                        "price": 2.9,
-                        "currency": "лв.",
-                        "active": true
-                    },
-                    {
-                        "id": 8,
-                        "title": "гръцка",
-                        "weigth": "0.300",
-                        "image": "Image8",
-                        "price": 2.9,
-                        "currency": "лв.",
-                        "active": true
-                    },
-                    {
-                        "id": 9,
-                        "title": "риголето",
-                        "weigth": "0.300",
-                        "image": "Image9",
-                        "price": 2.9,
-                        "currency": "лв.",
-                        "active": true
-                    },
-                    {
-                        "id": 10,
-                        "title": "цезар с калмари",
-                        "weigth": "0.300",
-                        "image": "Image10",
-                        "price": 2.9,
-                        "currency": "лв.",
-                        "active": true
-                    },
-                    {
-                        "id": 11,
-                        "title": "домашна",
-                        "weigth": "0.300",
-                        "image": "Image11",
-                        "price": 2.9,
-                        "currency": "лв.",
-                        "active": true
-                    },
-                    {
-                        "id": 12,
-                        "title": "шефска",
-                        "weigth": "0.300",
-                        "image": "Image12",
-                        "price": 2.9,
-                        "currency": "лв.",
-                        "active": true
-                    },
-                    {
-                        "id": 13,
-                        "title": "спанак с киноа",
-                        "weigth": "0.300",
-                        "image": "Image13",
-                        "price": 2.9,
-                        "currency": "лв.",
-                        "active": true
-                    },
-                    {
-                        "id": 14,
-                        "title": "киноа с бяла риба",
-                        "weigth": "0.300",
-                        "image": "Image14",
-                        "price": 2.9,
-                        "currency": "лв.",
-                        "active": true
-                    },
-                    {
-                        "id": 15,
-                        "title": "градинарска",
-                        "weigth": "0.300",
-                        "image": "Image15",
-                        "price": 2.9,
-                        "currency": "лв.",
-                        "active": true
-                    },
-                    {
-                        "id": 16,
-                        "title": "фитнес",
-                        "weigth": "0.300",
-                        "image": "Image16",
-                        "price": 2.9,
-                        "currency": "лв.",
-                        "active": true
-                    },
-                    {
-                        "id": 17,
-                        "title": "тиквички по гръцки",
-                        "weigth": "0.330",
-                        "image": "Image1",
-                        "price": 2.9,
-                        "currency": "лв.",
-                        "active": true
-                    },
-                    {
-                        "id": 18,
-                        "title": "кюфтенца от тиквички и магданоз",
-                        "weigth": "0.330",
-                        "image": "Image2",
-                        "price": 2.9,
-                        "currency": "лв.",
-                        "active": true
-                    },
-                    {
-                        "id": 19,
-                        "title": "царевички в ароматно масло",
-                        "weigth": "0.330",
-                        "image": "Image3",
-                        "price": 2.9,
-                        "currency": "лв.",
-                        "active": true
-                    },
-                    {
-                        "id": 20,
-                        "title": "картоф с ароматно масло",
-                        "weigth": "0.330",
-                        "image": "Image4",
-                        "price": 2.9,
-                        "currency": "лв.",
-                        "active": true
-                    },
-                    {
-                        "id": 21,
-                        "title": "пресни картофи на барбекю",
-                        "weigth": "0.330",
-                        "image": "Image5",
-                        "price": 2.9,
-                        "currency": "лв.",
-                        "active": true
-                    },
-                    {
-                        "id": 22,
-                        "title": "пресни зеленчуци",
-                        "weigth": "0.330",
-                        "image": "Image6",
-                        "price": 2.9,
-                        "currency": "лв.",
-                        "active": true
-                    },
-                    {
-                        "id": 23,
-                        "title": "спаначени кюфтенца с млечен сос",
-                        "weigth": "0.330",
-                        "image": "Image7",
-                        "price": 2.9,
-                        "currency": "лв.",
-                        "active": true
-                    },
-                    {
-                        "id": 24,
-                        "title": "кюфтенца от киноа",
-                        "weigth": "0.330",
-                        "image": "Image8",
-                        "price": 2.9,
-                        "currency": "лв.",
-                        "active": true
-                    },
-                    {
-                        "id": 25,
-                        "title": "уеджис",
-                        "weigth": "0.330",
-                        "image": "Image9",
-                        "price": 2.9,
-                        "currency": "лв.",
-                        "active": true
-                    }
-                ]
-
-
+                articles: [],
             },
             methods: {
                 toggleActive: function (s) {
@@ -332,12 +98,27 @@
                     });
 
                     return total;
+                },
+
+                getJSON: function () {
+                    let self = this;
+                    let url = 'https://spreadsheets.google.com/feeds/list/1vBaMFyH3DTWyux2Q0iHfYFtbrJyu4gay94Sc-P9v-2k/od6/public/values?alt=json';
+
+                    axios.get(url).then(response => {
+                        self.articles = response.data.feed.entry
+                    });
                 }
+
             },
+
+            created() {
+                this.getJSON();
+            },
+
             computed: {
                 filteredArticles: function () {
-                    var articles_array = this.articles,
-                        searchString = this.searchString;
+                    let articles_array = this.articles;
+                    let searchString = this.searchString;
 
                     if (!searchString) {
                         return articles_array;
@@ -346,7 +127,7 @@
                     searchString = searchString.trim().toLowerCase();
 
                     articles_array = articles_array.filter(function (item) {
-                        if (item.title.toLowerCase().indexOf(searchString) !== -1) {
+                        if (item.gsx$title.$t.toLowerCase().indexOf(searchString) !== -1) {
                             return item;
                         }
                     })
