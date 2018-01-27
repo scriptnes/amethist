@@ -16,16 +16,15 @@
 <body>
     <!-- demo root element -->
     <div id="demo">
-        <div style="max-width:500px;">
-            <md-app md-waterfall md-mode="fixed">
+        <div style="max-width:500px;" v-cloak>
+            <md-app md-mode="fixed">
                 <md-app-toolbar class="md-primary">
                     <md-field md-clearable>
                         <md-input v-model="searchString" placeholder="Търсете в артикулите"></md-input>
                     </md-field>
                 </md-app-toolbar>
 
-                <md-app-content v-cloak>
-
+                <md-app-content>
                     <md-card v-for="(article,index) in filteredArticles" :key="index" v-on:click.native="toggleActive(article)" v-bind:class="{ 'active': !article.gsx$active.$t}"
                         md-with-hover>
                         <img v-bind:src="article.gsx$image.$t" />
