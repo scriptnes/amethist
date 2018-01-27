@@ -23,13 +23,41 @@
                 <input type="text" v-model="searchString" placeholder="Търсете в артикулите" />
             </div>
 
-            <ul>
-                <!-- Render a li element for every entry in the computed filteredArticles array. -->
-                <li v-for="article in filteredArticles">
-                    <img v-bind:src="article.gsx$image.$t" />
-                    <p>{{article.gsx$title.$t}}</p>
-                </li>
-            </ul>
+
+            <!-- Render a li element for every entry in the computed filteredArticles array. -->
+            <!-- <md-list class="md-double-line" v-for="(article,index) in filteredArticles" :key="index" v-on:click="toggleActive(article)"
+                v-bind:class="{ 'active': !article.gsx$active.$t }">
+                <img v-bind:src="article.gsx$image.$t" />
+                <md-list-item>
+                    <md-avatar class="md-large">
+                        <img v-bind:src="article.gsx$image.$t" />
+                    </md-avatar>
+
+                    <div class="md-list-item-text">
+                        <span>{{ article.gsx$title.$t }}</span>
+                        <span>{{ article.gsx$description.$t }}</span>
+                    </div>
+                </md-list-item>
+            </md-list> -->
+
+            <md-card v-for="(article,index) in filteredArticles" :key="index" v-on:click="toggleActive(article)" v-bind:class="{ 'active': !article.gsx$active.$t }"
+                md-with-hover>
+                <img v-bind:src="article.gsx$image.$t" />
+                <md-card-header>
+                    <div class="md-title">
+                        <span>{{ article.gsx$title.$t }}</span>
+                    </div>
+                </md-card-header>
+
+                <md-card-content>
+                    <span>{{ article.gsx$description.$t }}</span>
+                </md-card-content>
+
+                <md-card-actions>
+                    <md-button>Избери</md-button>
+                </md-card-actions>
+            </md-card>
+
 
         </form>
 
@@ -37,6 +65,7 @@
         <form id="main-2" v-cloak>
             <h1>Обедно Меню</h1>
             <ul>
+
                 <li v-for="service in services" v-on:click="toggleActive(service)" v-bind:class="{ 'active': service.active}">
                     {{service.name}}
                     <span>{{service.price | currency}}</span>
@@ -84,8 +113,14 @@
                 articles: [],
             },
             methods: {
+                stringToBoolean: function (value) {
+                    return value === "FALSE" ? false : true;
+                },
                 toggleActive: function (s) {
-                    s.active = !s.active;
+                    console.log(s);
+                    //console.log(Boolean(s.gsx$active));
+                    s.gsx$active.$t = !s.gsx$active.$t;
+                    //console.log(Boolean(s.gsx$active));
                 },
                 total: function () {
 
