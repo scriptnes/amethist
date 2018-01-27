@@ -19,9 +19,16 @@
         <div style="max-width:500px;" v-cloak>
             <md-app md-mode="fixed">
                 <md-app-toolbar class="md-primary">
-                    <md-field md-clearable>
-                        <md-input v-model="searchString" placeholder="Търсете в артикулите"></md-input>
-                    </md-field>
+                    <div class="md-layout md-gutter md-alignment-center-center">
+                        <div class="md-layout-item md-size-80">
+                            <md-field md-clearable>
+                                <md-input v-model="searchString" placeholder="Търсете в артикулите"></md-input>
+                            </md-field>
+                        </div>
+                        <div class="md-layout-item md-size-20">
+                            <md-button class="md-dense md-raised md-accent">Преглед</md-button>
+                        </div>
+                    </div>
                 </md-app-toolbar>
 
                 <md-app-content>
@@ -89,13 +96,11 @@
                 toggleActive: function (s) {
                     s.gsx$active.$t = !s.gsx$active.$t;
                 },
-                total: function () {
-
-                    var total = 0;
-
-                    this.services.forEach(function (s) {
-                        if (s.active) {
-                            total += s.price;
+                preview: function () {
+                    let count = 0;
+                    this.articles.forEach(function (a) {
+                        if (a.gsx$active.$t === true) {
+                            count++;
                         }
                     });
 
