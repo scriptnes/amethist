@@ -16,50 +16,35 @@
 <body>
     <!-- demo root element -->
     <div id="demo">
-        <md-toolbar style="position:sticky;top:0px;">
-            <md-field md-clearable>
-                <md-input v-model="searchString" placeholder="Търсете в артикулите"></md-input>
-            </md-field>
-            <!-- <div class="bar">
-                <input type="text" v-model="searchString" placeholder="Търсете в артикулите" />
-            </div> -->
-        </md-toolbar>
+        <div class="md-layout md-gutter md-alignment-top-center" style="max-width:500px;">
+            <md-app md-waterfall md-mode="fixed">
+                <md-app-toolbar class="md-primary">
+                    <md-field md-clearable>
+                        <md-input v-model="searchString" placeholder="Търсете в артикулите"></md-input>
+                    </md-field>
+                </md-app-toolbar>
 
-        <form id="main-1" v-cloak>
+                <md-app-content v-cloak>
 
+                    <md-card v-for="(article,index) in filteredArticles" :key="index" v-on:click.native="toggleActive(article)" v-bind:class="{ 'active': !article.gsx$active.$t}"
+                        md-with-hover>
+                        <img v-bind:src="article.gsx$image.$t" />
+                        <md-card-header>
+                            <div class="md-title">
+                                <span>{{ article.gsx$title.$t }}</span>
+                            </div>
+                        </md-card-header>
 
-            <md-card v-for="(article,index) in filteredArticles" :key="index" v-on:click.native="toggleActive(article)" v-bind:class="{ 'active': !article.gsx$active.$t}"
-                md-with-hover>
-                <img v-bind:src="article.gsx$image.$t" />
-                <md-card-header>
-                    <div class="md-title">
-                        <span>{{ article.gsx$title.$t }}</span>
-                    </div>
-                </md-card-header>
+                        <md-card-content>
+                            <p>Описание: {{ article.gsx$description.$t }}</p>
+                            <p>Тегло: {{ article.gsx$weigth.$t }} гр.</p>
+                            <p>Цена: {{ article.gsx$price.$t }} {{ article.gsx$currency.$t }}</p>
+                        </md-card-content>
+                    </md-card>
 
-                <md-card-content>
-                    <p>Описание: {{ article.gsx$description.$t }}</p>
-                    <p>Тегло: {{ article.gsx$weigth.$t }} гр.</p>
-                    <p>Цена: {{ article.gsx$price.$t }} {{ article.gsx$currency.$t }}</p>
-                </md-card-content>
-            </md-card>
-        </form>
-
-
-        <form id="main-2" v-cloak>
-            <h1>Обедно Меню</h1>
-            <ul>
-
-                <li v-for="service in services" v-on:click="toggleActive(service)" v-bind:class="{ 'active': service.active}">
-                    {{service.name}}
-                    <span>{{service.price | currency}}</span>
-                </li>
-            </ul>
-
-            <div class="total">Total:
-                <span>{{total() | currency}}</span>
-            </div>
-        </form>
+                </md-app-content>
+            </md-app>
+        </div>
 
     </div>
 
@@ -73,6 +58,8 @@
         new Vue({
             el: '#demo',
             data: {
+                menuVisible: false,
+
                 activeColor: 'white',
                 index: 0,
                 services: [
@@ -159,8 +146,6 @@
 
 
     <style>
-        @import url(https://fonts.googleapis.com/css?family=Cookie);
-
         [v-cloak] {
             display: none;
         }
@@ -170,124 +155,13 @@
             padding: 0;
         }
 
-        body {
-            font: 15px/1.3 'Open Sans', sans-serif;
-            color: #5e5b64;
-            text-align: center;
+        .md-app {
+            max-height: 800px;
+            border: 1px solid rgba(#000, .12);
         }
 
-        a,
-        a:visited {
-            outline: none;
-            color: #389dc1;
-        }
-
-        a:hover {
-            text-decoration: none;
-        }
-
-        section,
-        footer,
-        header,
-        aside,
-        nav {
-            display: block;
-        }
-
-        /*------------------------- The order form --------------------------*/
-
-        form {
-            background-color: #61a1bc;
-            border-radius: 2px;
-            box-shadow: 0 1px 1px #ccc;
-            width: 500px;
-            padding: 35px 60px;
-            margin: 50px auto;
-        }
-
-        form h1 {
-            color: #fff;
-            font-size: 32px;
-            font-family: 'Cookie', cursive;
-            font-weight: normal;
-            line-height: 1;
-            text-shadow: 0 3px 0 rgba(0, 0, 0, 0.1);
-        }
-
-        form ul {
-            list-style: none;
-            color: #fff;
-            font-size: 20px;
-            font-weight: bold;
-            text-align: left;
-            margin: 20px 0 15px;
-        }
-
-        form ul li {
-            padding: 20px 30px;
-            background-color: #e35885;
-            margin-bottom: 8px;
-            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-        }
-
-        form ul li span {
-            float: right;
-        }
-
-        form div.md-card.md-theme-default.md-with-hover.active {
+        div.md-card.md-theme-default.md-with-hover.active {
             background-color: #8ec16d;
-        }
-
-        div.total {
-            border-top: 1px solid rgba(255, 255, 255, 0.5);
-            padding: 15px 30px;
-            font-size: 20px;
-            font-weight: bold;
-            text-align: left;
-            color: #fff;
-        }
-
-        div.total span {
-            float: right;
-        }
-
-
-        /*-------------------------The search input--------------------------*/
-
-        .bar {
-            background-color: #5c9bb7;
-
-            background-image: -webkit-linear-gradient(top, #5c9bb7, #5392ad);
-            background-image: -moz-linear-gradient(top, #5c9bb7, #5392ad);
-            background-image: linear-gradient(top, #5c9bb7, #5392ad);
-
-            box-shadow: 0 1px 1px #ccc;
-            border-radius: 2px;
-            width: 100%;
-            padding: 14px;
-            margin: 5px auto 20px;
-            position: relative;
-        }
-
-        .bar input {
-            background: #fff no-repeat 13px 13px;
-            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyBpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBXaW5kb3dzIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkU5NEY0RTlFMTA4NzExRTM5RTEzQkFBQzMyRjkyQzVBIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkU5NEY0RTlGMTA4NzExRTM5RTEzQkFBQzMyRjkyQzVBIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6RTk0RjRFOUMxMDg3MTFFMzlFMTNCQUFDMzJGOTJDNUEiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6RTk0RjRFOUQxMDg3MTFFMzlFMTNCQUFDMzJGOTJDNUEiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4DjA/RAAABK0lEQVR42pTSQUdEURjG8dOY0TqmPkGmRcqYD9CmzZAWJRHVRIa0iFYtM6uofYaiEW2SRJtEi9YxIklp07ZkWswu0v/wnByve7vm5ee8M+85zz1jbt9Os+WiGkYdYxjCOx5wgFeXUHmtBSzpcCGa+5BJTCjEP+0nKWAT8xqe4ArPGEEVC1hHEbs2oBwdXkM7mj/JLZrad437sCGHOfUtcziutuYu2v8XUFF/4f6vMK/YgAH1HxkBYV60AR31gxkBYd6xAeF3VzMCwvzOBpypX8V4yuFRzX2d2gD/l5yjH4fYQEnzkj4fae5rJulF2sMXVrAsaTWttRFu4Osb+1jEDT71/ZveyhouTch2fINQL9hKefKjuYFfuznXWzXMTabyrvfyIV3M4vhXgAEAUMs7K0J9UJAAAAAASUVORK5CYII=);
-
-            border: none;
-            width: 100%;
-            line-height: 19px;
-            padding: 11px 0;
-
-            border-radius: 2px;
-            box-shadow: 0 2px 8px #c4c4c4 inset;
-            text-align: left;
-            font-size: 14px;
-            font-family: inherit;
-            color: #738289;
-            font-weight: bold;
-            outline: none;
-            text-indent: 40px;
         }
     </style>
 </body>
