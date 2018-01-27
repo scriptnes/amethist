@@ -17,10 +17,12 @@
     <!-- demo root element -->
     <div id="demo">
         <md-toolbar style="position:sticky;top:0px;">
-            <div class="bar">
-                <!-- Create a binding between the searchString model and the text field -->
+            <md-field md-clearable>
+                <md-input v-model="searchString" placeholder="Търсете в артикулите"></md-input>
+            </md-field>
+            <!-- <div class="bar">
                 <input type="text" v-model="searchString" placeholder="Търсете в артикулите" />
-            </div>
+            </div> -->
         </md-toolbar>
 
         <form id="main-1" v-cloak>
