@@ -32,7 +32,9 @@
                 </md-card-header>
 
                 <md-card-content>
-                    <span>{{ article.gsx$description.$t }}</span>
+                    <p>Описание: {{ article.gsx$description.$t }}</p>
+                    <p>Тегло: {{ article.gsx$weigth.$t }} гр.</p>
+                    <p>Цена: {{ article.gsx$price.$t }} {{ article.gsx$currency.$t }}</p>
                 </md-card-content>
             </md-card>
         </form>
@@ -93,16 +95,7 @@
             methods: {
 
                 toggleActive: function (s) {
-                    // this.index = index;
-                    // console.log(s);
-                    // if (this.activeColor === 'white') {
-                    //     this.activeColor = 'pink';
-                    // }
-                    // else {
-                    //     this.activeColor = 'white';
-                    // }
                     s.gsx$active.$t = !s.gsx$active.$t;
-
                 },
                 total: function () {
 
