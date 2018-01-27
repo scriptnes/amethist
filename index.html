@@ -16,11 +16,15 @@
 <body>
     <!-- demo root element -->
     <div id="demo">
-        <form id="main-1" v-cloak>
+        <md-toolbar style="position:sticky;top:0px;">
             <div class="bar">
                 <!-- Create a binding between the searchString model and the text field -->
                 <input type="text" v-model="searchString" placeholder="Търсете в артикулите" />
             </div>
+        </md-toolbar>
+
+        <form id="main-1" v-cloak>
+
 
             <md-card v-for="(article,index) in filteredArticles" :key="index" v-on:click.native="toggleActive(article)" v-bind:class="{ 'active': !article.gsx$active.$t}"
                 md-with-hover>
@@ -260,7 +264,7 @@
             border-radius: 2px;
             width: 100%;
             padding: 14px;
-            margin: 45px auto 20px;
+            margin: 5px auto 20px;
             position: relative;
         }
 
