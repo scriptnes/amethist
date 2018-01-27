@@ -40,7 +40,7 @@
                 </md-list-item>
             </md-list> -->
 
-            <md-card v-for="(article,index) in filteredArticles" :key="index" v-on:click="toggleActive(article)" v-bind:class="{ 'active': !article.gsx$active.$t }"
+            <md-card v-for="(article,index) in filteredArticles" :key="index" v-on:click.native="toggleActive(article)" v-bind:style="{ 'background-color': activeColor }"
                 md-with-hover>
                 <img v-bind:src="article.gsx$image.$t" />
                 <md-card-header>
@@ -53,9 +53,9 @@
                     <span>{{ article.gsx$description.$t }}</span>
                 </md-card-content>
 
-                <md-card-actions>
+                <!-- <md-card-actions>
                     <md-button>Избери</md-button>
-                </md-card-actions>
+                </md-card-actions> -->
             </md-card>
 
 
@@ -89,6 +89,7 @@
         new Vue({
             el: '#demo',
             data: {
+                activeColor: 'white',
                 services: [
                     {
                         name: 'Web Development',
@@ -118,9 +119,13 @@
                 },
                 toggleActive: function (s) {
                     console.log(s);
-                    //console.log(Boolean(s.gsx$active));
-                    s.gsx$active.$t = !s.gsx$active.$t;
-                    //console.log(Boolean(s.gsx$active));
+                    if (this.activeColor === 'white') {
+                        this.activeColor = 'pink';
+                    }
+                    else {
+                        this.activeColor = 'white';
+                    }
+
                 },
                 total: function () {
 
