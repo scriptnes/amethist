@@ -26,7 +26,7 @@
                             </md-field>
                         </div>
                         <div class="md-layout-item md-size-35">
-                            <md-button class="md-dense md-raised md-accent">Преглед</md-button>
+                            <md-button v-on:click.native="preview" class="md-dense md-raised md-accent">Преглед</md-button>
                         </div>
                     </div>
                 </md-app-toolbar>
@@ -52,6 +52,18 @@
             </md-app>
         </div>
 
+        <md-dialog :md-active.sync="showDialog">
+            <md-dialog-title>Preferences</md-dialog-title>
+
+            <pre>reserveArticles: {{reserveArticles}}</pre>
+
+            <md-dialog-actions>
+                <md-button class="md-primary" @click="showDialog = false">Close</md-button>
+                <md-button class="md-primary" @click="showDialog = false">Save</md-button>
+            </md-dialog-actions>
+        </md-dialog>
+
+       
     </div>
 
     <script>
@@ -64,32 +76,10 @@
         new Vue({
             el: '#demo',
             data: {
-                menuVisible: false,
-
-                activeColor: 'white',
-                index: 0,
-                services: [
-                    {
-                        name: 'Web Development',
-                        price: 300,
-                        active: false
-                    }, {
-                        name: 'Design',
-                        price: 400,
-                        active: false
-                    }, {
-                        name: 'Integration',
-                        price: 250,
-                        active: false
-                    }, {
-                        name: 'Training',
-                        price: 220,
-                        active: false
-                    }
-                ],
-
                 searchString: "",
                 articles: [],
+                reserveArticles: [],
+                showDialog: false,
             },
             methods: {
 
@@ -97,14 +87,17 @@
                     s.gsx$active.$t = !s.gsx$active.$t;
                 },
                 preview: function () {
+                    let self = this;
                     let count = 0;
                     this.articles.forEach(function (a) {
-                        if (a.gsx$active.$t === true) {
+                        if (Boolean(a.gsx$active.$t) === false) {
+                            self.reserveArticles.push(a);
                             count++;
                         }
                     });
+                    console.log(count);
+                    this.showDialog = true;
 
-                    return total;
                 },
 
                 getJSON: function () {
