@@ -17,30 +17,12 @@
     <!-- demo root element -->
     <div id="demo">
         <form id="main-1" v-cloak>
-
             <div class="bar">
                 <!-- Create a binding between the searchString model and the text field -->
                 <input type="text" v-model="searchString" placeholder="Търсете в артикулите" />
             </div>
 
-
-            <!-- Render a li element for every entry in the computed filteredArticles array. -->
-            <!-- <md-list class="md-double-line" v-for="(article,index) in filteredArticles" :key="index" v-on:click="toggleActive(article)"
-                v-bind:class="{ 'active': !article.gsx$active.$t }">
-                <img v-bind:src="article.gsx$image.$t" />
-                <md-list-item>
-                    <md-avatar class="md-large">
-                        <img v-bind:src="article.gsx$image.$t" />
-                    </md-avatar>
-
-                    <div class="md-list-item-text">
-                        <span>{{ article.gsx$title.$t }}</span>
-                        <span>{{ article.gsx$description.$t }}</span>
-                    </div>
-                </md-list-item>
-            </md-list> -->
-
-            <md-card v-for="(article,index) in filteredArticles" :key="index" v-on:click.native="toggleActive(article)" v-bind:style="{ 'background-color': activeColor }"
+            <md-card v-for="(article,index) in filteredArticles" :key="index" v-on:click.native="toggleActive(article)" v-bind:class="{ 'active': !article.gsx$active.$t}"
                 md-with-hover>
                 <img v-bind:src="article.gsx$image.$t" />
                 <md-card-header>
@@ -52,13 +34,7 @@
                 <md-card-content>
                     <span>{{ article.gsx$description.$t }}</span>
                 </md-card-content>
-
-                <!-- <md-card-actions>
-                    <md-button>Избери</md-button>
-                </md-card-actions> -->
             </md-card>
-
-
         </form>
 
 
@@ -90,6 +66,7 @@
             el: '#demo',
             data: {
                 activeColor: 'white',
+                index: 0,
                 services: [
                     {
                         name: 'Web Development',
@@ -114,17 +91,17 @@
                 articles: [],
             },
             methods: {
-                stringToBoolean: function (value) {
-                    return value === "FALSE" ? false : true;
-                },
+
                 toggleActive: function (s) {
-                    console.log(s);
-                    if (this.activeColor === 'white') {
-                        this.activeColor = 'pink';
-                    }
-                    else {
-                        this.activeColor = 'white';
-                    }
+                    // this.index = index;
+                    // console.log(s);
+                    // if (this.activeColor === 'white') {
+                    //     this.activeColor = 'pink';
+                    // }
+                    // else {
+                    //     this.activeColor = 'white';
+                    // }
+                    s.gsx$active.$t = !s.gsx$active.$t;
 
                 },
                 total: function () {
@@ -259,7 +236,7 @@
             float: right;
         }
 
-        form ul li.active {
+        form div.md-card.md-theme-default.md-with-hover.active {
             background-color: #8ec16d;
         }
 
